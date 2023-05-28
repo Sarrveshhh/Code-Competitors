@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { problems, submissions } from "../index.js";
+import { auth } from "../Middleware/auth.js";
 
 
 //get all problems.
@@ -14,6 +15,8 @@ router.get("/all", (req, res) => {
     res.status(200).json({
         problems: filteredProblem
     });
+
+    submissions.length = 0;
     
 });
 
@@ -35,26 +38,41 @@ router.post("/eachProblem/:id", (req, res) => {
 
 
 //submit solution.
-router.post("/submission", (req, res) => {
+router.post("/submission", auth, (req, res) => {
     const isCorrect = Math.random() < 0.5;
-    const problemIdd = req.body.problemIdd;
+    const problemId = req.body.problemId;
     const solution = req.body.solution;
     const userId = "Sarrvesh";
 
     if(isCorrect){
         res.status(200).json({"message":"Correct Solution!"});
         const status = "AC";
-        submissions.push({problemIdd, isCorrect, solution, userId, status});
+        submissions.push({problemId, isCorrect, solution, userId, status});
     }
     else{
         res.status(200).json({"message":"Wrong Answer"});
         const status = "WA";
-        submissions.push({problemIdd, isCorrect, solution, userId, status});
+        submissions.push({problemId, isCorrect, solution, userId, status});
     }
 
     console.log(submissions);
 
 });
+
+
+
+
+router.get("/submission/:id", auth, (req, res) => {
+    const problemId = Number(req.params.id); // Convert id to a number
+  
+    const filteredSubmission = submissions.filter(
+      (x) => x.problemId === problemId
+    );
+  
+    res.status(200).json({ submissions: filteredSubmission });
+  });
+
+
 
 
 
