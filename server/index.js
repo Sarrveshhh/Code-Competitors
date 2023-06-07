@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from 'body-parser';
+import mongoose from "mongoose";
 import cors from 'cors';
 const app = express()
 const port = 3001;
@@ -65,7 +66,6 @@ app.use('/login', loginRoutes);
 app.use('/signup', signupRoutes);
 app.use('/problems', problemsRoutes);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
+mongoose.connect(process.env.CONNECTION_URL, {useNewURLParser: true, useUnifiedTopology: true})
+    .then(() => app.listen(port, () => console.log(`Server running on port: ${port}`)))
+    .catch((error) => console.log(error.message));
