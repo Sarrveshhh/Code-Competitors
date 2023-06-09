@@ -1,10 +1,8 @@
 import express from "express";
-// import {users} from "../index.js"
 import user from "../models/user.js";
 const router = express.Router();
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
-let userIdCounter = 0;
 const secret = 'test';
 
 

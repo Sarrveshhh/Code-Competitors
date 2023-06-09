@@ -1,39 +1,52 @@
 import express from "express";
 const router = express.Router();
-import { problems, submissions } from "../index.js";
+import problem from "../models/problem.js";
+// import { problems, submissions } from "../index.js";
 import { auth } from "../Middleware/auth.js";
 
 
 //get all problems.
-router.get("/all", (req, res) => {
-    const filteredProblem = problems.map(x => ({
-        problemId: x.problemId,
-        difficulty: x.difficulty,
-        acceptance: x.acceptance
+router.get("/all", async(req, res) => {
+    try{
+        const allProblems = await problem.find();
+        res.status(200).json({allProblems});
+    }
+    catch(err){
+        res.status(400).json({msg: "Some error occured!"});
+        console.log(err);
 
-    }))
-    res.status(200).json({
-        problems: filteredProblem
-    });
+    }
+});
 
-    submissions.length = 0;
-    
+//add problems to the website.
+router.post('/addProblem', async(req, res) => {
+    const { problemId, title, difficulty, acceptance, description, exampleIn, exampleOut} = req.body;
+
+    try{
+        const createdProblem = await problem.create({problemId, title, difficulty, acceptance, description, exampleIn, exampleOut});
+        res.status(200).json({createdProblem});
+    }
+    catch(error){
+        res.status(400).json({msg: "Something went wrong!"});
+        console.log(error);
+    }
 });
 
 
 //get one problem complete description.
-router.post("/eachProblem/:id", (req, res) => {
+router.post("/eachProblem/:id", async(req, res) => {
     const problemId = req.params.id;
 
-    const filteredProblem = problems.filter(x => x.problemId === problemId);
+    try{
+        const selectedProblem = await problem.find({problemId: problemId});
 
-    if(filteredProblem.length == 0){
-        
-        res.status(404).json({error:"Problem not found!"});
+        res.status(200).json({selectedProblem});
     }
-    else{
-        res.status(200).json(filteredProblem);
+    catch(error){
+        res.status(400).json({msg: "something went wrong!"});
+        console.log(error);
     }
+
 });
 
 
