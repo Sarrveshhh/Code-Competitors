@@ -26,7 +26,7 @@ const Signup = () => {
 
         <div className='subbutton'>
         <button type="submit" id="submit" onClick={async (e) => {
-          axios
+          const response = await axios
           .post(`http://localhost:3001/signup/register`, {
             email: email,
             password: password,
@@ -35,6 +35,7 @@ const Signup = () => {
           .catch(function (error) {
             console.log(error);
           });
+          console.log(response);
         }}>Sign Up</button>
         </div>
       </div>

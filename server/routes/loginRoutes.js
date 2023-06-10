@@ -1,34 +1,24 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { users } from "../index.js";
+import user from "../models/user.js";
 const router = express.Router();
 import dotenv from "dotenv";
 
 dotenv.config();
 
-router.post("/", (req, res) => {
-    const {name, email, password} = req.body;
+router.post("/", async (req, res) => {
+    const {email, password} = req.body;
 
-    if(!(name && email && password)){
-        return res.status(400).send("All inputs are requrired!");
+    if(!(email && password)){
+        return res.status(400).json({msg: "All inputs are requrired!"});
     }
 
-    const user = users.find(x => x.email === email);
-
-    if(!user){
-        return res.status(403).json({msg: "User not found!"});
+    const loginUser = await user.findOne({ email });
+    if(!loginUser){
+        return res.status(400).json({msg: "No account found!"})
     }
 
-    if(user.password !== password){
-        return res.status(403).json({msg: "Incorrect password"});
-    }
-
-    const payload = {id: user.id};
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    res.json({accessToken: accessToken});
-
-
-
+    return res.status(200).json({msg: "Complete validation!"})
 });
 
 
