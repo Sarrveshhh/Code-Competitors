@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import problem from "../models/problem.js";
+import submission from "../models/submission.js";
 // import { problems, submissions } from "../index.js";
 import { auth } from "../Middleware/auth.js";
 
@@ -51,24 +52,45 @@ router.post("/eachProblem/:id", async(req, res) => {
 
 
 //submit solution.
-router.post("/submission", auth, (req, res) => {
+router.post("/submission", auth, async(req, res) => {
+
     const isCorrect = Math.random() < 0.5;
-    const problemId = req.body.problemId;
-    const solution = req.body.solution;
-    const userId = "Sarrvesh";
-
-    if(isCorrect){
-        res.status(200).json({"message":"Correct Solution!"});
-        const status = "AC";
-        submissions.push({problemId, isCorrect, solution, userId, status});
+    const {problemId, solution, userId} = req.body;
+    try{
+        if(isCorrect){
+            const status = 'AC';
+            const submit = await submission.create({problemId, solution, userId, status});
+            res.status(200).json({submit});
+            console.log('submission added to db, with right answer');
+        }
+        else{
+            const status = 'WA';
+            const submit = await submission.create({problemId, solution, userId, status});
+            res.status(200).json({submit});
+            console.log('submission added to db, with wrong answer');
+        }
     }
-    else{
-        res.status(200).json({"message":"Wrong Answer"});
-        const status = "WA";
-        submissions.push({problemId, isCorrect, solution, userId, status});
-    }
+    catch(errror){
+        res.status(400).json({msg: 'Something went wrong!'});
+        console.log(error);
+    }   
+    // const isCorrect = Math.random() < 0.5;
+    // const problemId = req.body.problemId;
+    // const solution = req.body.solution;
+    // const userId = "Sarrvesh";
 
-    console.log(submissions);
+    // if(isCorrect){
+    //     res.status(200).json({"message":"Correct Solution!"});
+    //     const status = "AC";
+    //     submissions.push({problemId, isCorrect, solution, userId, status});
+    // }
+    // else{
+    //     res.status(200).json({"message":"Wrong Answer"});
+    //     const status = "WA";
+    //     submissions.push({problemId, isCorrect, solution, userId, status});
+    // }
+
+    // console.log(submissions);
 
 });
 
