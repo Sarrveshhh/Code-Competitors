@@ -4,11 +4,16 @@
 
 .subform {
     margin: 1rem;
-    font-family: 'Prompt', sans-serif;;
+    font-family: 'Prompt', sans-serif;
+}
+
+.subbutton{
+    margin: 0.5rem auto;
+    padding: 0.5rem;
 }
 
 .signup-form {
-    height: 200px;
+    height: 220px;
     width: 70%;
     max-width: 550px;
     border: 1px solid grey;

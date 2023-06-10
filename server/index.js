@@ -13,9 +13,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
+app.use(express.json());
 app.use(bodyParser.json({limit:"30 mb", extended: true}));
 app.use(bodyParser.urlencoded({limit:"30 mb", extended: true}));
-app.use(express.json());
 app.use(cors());
 
 
