@@ -15,10 +15,19 @@ router.post("/", async (req, res) => {
 
     const loginUser = await user.findOne({ email });
     if(!loginUser){
-        return res.status(400).json({msg: "No account found!"})
+        return res.status(400).json({msg: "No account found!"});
     }
 
-    return res.status(200).json({msg: "Complete validation!"})
+    if(loginUser.password !== password){
+        return res.status(403).json({msg: "Incorrect password!"});
+    }
+
+
+    const token = jwt.sign({email: loginUser.email}, process.env.ACCESS_TOKEN_SECRET);
+
+
+    return res.status(200).json({token});
+    
 });
 
 

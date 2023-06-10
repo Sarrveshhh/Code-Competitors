@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios'
 import "./AllProblems.css"
 
-const AllProblemsPage = ({problems}) => {
+const AllProblemsPage = () => {
+  const [problems, setProblems] = useState([]);
+
+  const init = async() => {
+    const response = await axios.get('http://localhost:3001/problems/all');
+    console.log(response);
+
+    const allP = response.data.allProblems;
+
+    setProblems(allP);
+
+    console.log(problems);
+
+  } 
+
+  useEffect(() => {init()}, []);
   return (
     <div id="allproblems">
       <table>

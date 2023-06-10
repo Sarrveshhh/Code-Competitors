@@ -9,13 +9,12 @@ export const auth = (req, res, next) => {
         if(!authHeader){
             return res.status(403).json({msg:"Missing auth header"});
         }
+
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
             if(err){
-                return res.status(401).json({msg: "galat hai!"})
+                return res.status(401).json({msg: "error. Bad Token!"})
             }
-
             req.payload = payload;
             next();
-
         });
     }
