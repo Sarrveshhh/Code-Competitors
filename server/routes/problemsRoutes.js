@@ -35,7 +35,7 @@ router.post('/addProblem', async(req, res) => {
 
 
 //get one problem complete description.
-router.post("/eachProblem/:id", async(req, res) => {
+router.get("/eachProblem/:id", async(req, res) => {
     const problemId = req.params.id;
 
     try{

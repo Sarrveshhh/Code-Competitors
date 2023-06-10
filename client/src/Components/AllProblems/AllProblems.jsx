@@ -7,7 +7,11 @@ const AllProblemsPage = () => {
   const [problems, setProblems] = useState([]);
 
   const init = async() => {
-    const response = await axios.get('http://localhost:3001/problems/all');
+    const response = await axios.get('http://localhost:3001/problems/all').catch(function (error) {
+      console.log(error);
+    });
+
+    
     console.log(response);
 
     const allP = response.data.allProblems;
