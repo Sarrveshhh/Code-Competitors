@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import axios from 'axios';
 import './AddProblems.css';
 
 const AddProblems = () => {
@@ -7,18 +7,18 @@ const AddProblems = () => {
     const [difficulty, setDifficulty] = useState();
     const [acceptance, setAcceptance] = useState();
     const [description, setDescription] = useState();
-    const [examplein, setexamplein] = useState();
-    const [exampleout, setexampleout] = useState();
+    const [exampleIn, setexamplein] = useState();
+    const [exampleOut, setexampleout] = useState();
 
 
     const handleSubmit = async() => {
-        const response = await axios.post("", {
+        const response = await axios.post("http://localhost:3001/problems/addProblem", {
             title: title,
             difficulty: difficulty,
             acceptance: acceptance,
             description: description,
-            examplein: examplein,
-            exampleout: exampleout
+            exampleIn: exampleIn,
+            exampleOut: exampleOut
         }).catch(function(error){
             console.log(error);
         })
@@ -52,13 +52,13 @@ const AddProblems = () => {
         </div>
 
         <div className='subform'>
-          <label htmlFor="examplein">ExampleIn: </label>
-          <input onChange={(e) => setexamplein(e.target.value)} type="text" name='examplein' placeholder='Example input' />
+          <label htmlFor="exampleIn">ExampleIn: </label>
+          <input onChange={(e) => setexamplein(e.target.value)} type="text" name='exampleIn' placeholder='Example input' />
         </div>
 
         <div className='subform'>
-          <label htmlFor="exampleout">ExampleOut: </label>
-          <input onChange={(e) => setexampleout(e.target.value)} type="text" name='exampleout' placeholder='Example output' />
+          <label htmlFor="exampleOut">ExampleOut: </label>
+          <input onChange={(e) => setexampleout(e.target.value)} type="text" name='exampleOut' placeholder='Example output' />
         </div>
 
         <div className='subbutton'>

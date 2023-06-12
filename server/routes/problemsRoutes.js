@@ -2,8 +2,10 @@ import express from "express";
 const router = express.Router();
 import problem from "../models/problem.js";
 import submission from "../models/submission.js";
+import counter from "../models/counter.js";
 // import { problems, submissions } from "../index.js";
 import { auth } from "../Middleware/auth.js";
+
 
 
 //get all problems.
@@ -21,16 +23,34 @@ router.get("/all", async(req, res) => {
 
 //add problems to the website.
 router.post('/addProblem', async(req, res) => {
-    const { problemId, title, difficulty, acceptance, description, exampleIn, exampleOut} = req.body;
+    counter.findOneAndUpdate(
+        {id: "autoval"},
+        {"$inc":{"seq":1}},
+        {new: true}).then( cd => {
+            let seqId;
+            if(cd==null){
+                const newval = new counter({id:"autoval", seq: 1});
+                newval.save();
+            }
+            else{
+                seqId = cd.seq;
+            }
+            
+            const {title, difficulty, acceptance, description, exampleIn, exampleOut} = req.body;
 
-    try{
-        const createdProblem = await problem.create({problemId, title, difficulty, acceptance, description, exampleIn, exampleOut});
-        res.status(200).json({createdProblem});
-    }
-    catch(error){
-        res.status(400).json({msg: "Something went wrong!"});
-        console.log(error);
-    }
+            try{
+                const createdProblem = problem.create({problemId: seqId, title, difficulty, acceptance, description, exampleIn, exampleOut});
+                res.status(200).json({createdProblem});
+            }
+            catch(error){
+                res.status(400).json({msg: "Something went wrong!"});
+                console.log(error);
+            }
+
+        }
+
+    )
+
 });
 
 
