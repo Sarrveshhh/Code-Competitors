@@ -7,6 +7,7 @@ import Navbar from "./Constants/Navbar/Navbar"
 import ProblemsPage from "./Components/ProblemsPage/ProblemsPage";
 import Signup from "./Components/Signup/Signup"
 import Login from "./Components/Login/Login"
+import AddProblems from "./Components/AddProblems/AddProblems";
 import "./App.css"
 
 /*
@@ -106,7 +107,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/problemset/all/" element={<AllProblems />} />
                 <Route path="/problems/:pid/" element={<ProblemsPage />} />
-                <Route path="*" element={<div>404 Not Found</div>} />
+                <Route path="/problems/addProblems" element={<div><AddProblems /></div>} />
+                
             </Routes>
         </BrowserRouter>
     // <div>

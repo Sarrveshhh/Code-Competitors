@@ -1,0 +1,19 @@
+.addProblem-form {
+    height: 420px;
+    width: 70%;
+    max-width: 550px;
+    border: 1px solid grey;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background: #fffdfd;
+    box-shadow: 0 8px 8px -4px lightblue;
+}
+
+.subbutton{
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+}

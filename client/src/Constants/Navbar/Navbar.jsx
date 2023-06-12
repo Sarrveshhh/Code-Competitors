@@ -21,6 +21,9 @@ const Navbar = () => {
       <div className="nav-options">
         <Link to={'/login'} >Login</Link>
       </div>
+      <div className="nav-options">
+        <Link to={'/problems/addProblems'} >Add Problems</Link>
+      </div>
     </div>
   )
 }
